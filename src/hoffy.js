@@ -45,6 +45,55 @@ function repeatCallAllArgs(fn, n, ...args){
     }
 }
 
+function maybe(fn){
+    //maybe will take a function, fn and return an entirely new
+    // function that behaves mostly like the original function, fn
+    // passed in, but will return undefined if any null or undefined
+    // arguments are passed in to fn.
+
+    return function(...args){
+        if(args.includes(undefined) || args.includes(null)){
+            return undefined;
+        }
+        return fn(...args);
+    }
+}
+
+function constrainDecorator(fn, min, max){
+    //This function wraps the function fn in another function so that
+    // operations can be performed before and after the original
+    // function fn is called. This can be used to modify incoming
+    // arguments, modify the return value, or do any other task before
+    // or after the function call. Again, we'll be modifying the
+    // return value in this case.
+
+    return function(...args){
+        let result = fn(...args);
+        if (result > max){
+            return max;
+        }else if(result < min){
+            return min;
+        }else{
+            return result;
+        }
+    }
+}
+
+// Test for sum(...args)
 //console.log(sum(1));
+
+// Test for repeatCall(fn, n, ...args)
 //repeatCall(sum,3,1,2,3,4);
-repeatCallAllArgs(console.log, 2, "foo", "bar", "baz", "qux", "quxx", "corge");
+
+// Test for repeatCallAllArgs(fn, n, ...args)
+//repeatCallAllArgs(console.log, 2, "foo", "bar", "baz", "qux", "quxx", "corge");
+
+// Test for maybe(fn)
+// function createFullName(firstName, lastName) {
+//     return `${firstName} ${lastName}`; 
+// }
+// console.log(maybe(createFullName)('Frederick', 'Functionstein'));
+
+// Test for constrainDecorator(fn, min, max)
+// const constrainedParseInt = constrainDecorator(parseInt, -10, 10);
+// console.log(constrainedParseInt("12"));
