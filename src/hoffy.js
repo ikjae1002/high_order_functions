@@ -79,6 +79,27 @@ function constrainDecorator(fn, min, max){
     }
 }
 
+function limitCallsDecorator(fn, n){
+    // This is the culmination of all of the concepts from the
+    // previous functions. However, instead of just reading from a
+    // variable that's available through the closure, you'll use it
+    // to keep track of the number of times that a function is called…
+    // and prevent the function from being called again if it goes
+    // over the max number of allowed function calls. 
+
+    let called = 0;
+    return function(...args){
+        called++;
+        if(called <= n){
+            return fn(...args);
+        }else{
+            return undefined;
+        }
+    }
+}
+
+
+
 // Test for sum(...args)
 //console.log(sum(1));
 
@@ -97,3 +118,10 @@ function constrainDecorator(fn, min, max){
 // Test for constrainDecorator(fn, min, max)
 // const constrainedParseInt = constrainDecorator(parseInt, -10, 10);
 // console.log(constrainedParseInt("12"));
+
+// Test for limitCallsDecorator(fn, n)
+// const limitedParseInt = limitCallsDecorator(parseInt, 3);
+// console.log(limitedParseInt("432"));
+// console.log(limitedParseInt("432"));
+// console.log(limitedParseInt("432"));
+// console.log(limitedParseInt("432"));
