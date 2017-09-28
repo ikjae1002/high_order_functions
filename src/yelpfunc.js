@@ -38,8 +38,10 @@ function processYelpData(restaurants){
             return false;
         }
     }
+
     let nevada = restaurants;
     nevada.pop(-1);
+    let lastobj = nevada.pop(-1);
     const allpizzainVegas = nevada.filter(locationNV);
     console.log("\n* All restaurants in Las Vegas, NV that serve pizza");
     for(let i = 0; i < allpizzainVegas.length; i++){
@@ -76,7 +78,28 @@ function processYelpData(restaurants){
     console.log("\t* " + twomexican[0].name + ", " + twomexican[0].city + ", (" + twomexican[0].state + "), " + twomexican[0].review_count + " reviews, (* " + twomexican[0].stars + " stars *)");
     console.log("\t* " + twomexican[1].name + ", " + twomexican[1].city + ", (" + twomexican[1].state + "), " + twomexican[1].review_count + " reviews, (* " + twomexican[1].stars + " stars *)");
 
-    //
+    // find most common name in the database
+    const mostcommon = restaurants;
+    const most = {};
+    for(let i = 0; i < mostcommon.length; i++){
+        if(most[mostcommon[i].name] === undefined){
+            most[mostcommon[i].name] = 1;
+        }else{
+            most[mostcommon[i].name]++;
+        }
+    }
+    //console.log(most);
+    let commonname, commonnum;
+    for(let property in most){
+        if(commonname === undefined){
+            commonname = property;
+            commonnum = most[property];
+        }else if(commonnum < most[property]){
+            commonname = property;
+            commonnum = most[property];
+        }
+    }
+    console.log("\n* " + commonname + " is the most common business and it appears " + commonnum + " times in the dataset:");
 }
 
 module.exports = {
