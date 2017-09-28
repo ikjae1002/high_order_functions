@@ -2,6 +2,9 @@
 // Programmer: Ikjae (Joshua) Jung
 // Date: 9/24/17
 
+let fs = require('fs');
+
+
 function sum(num1, ...nums){
     // Adds all of the arguments together and returns the resulting sum.
     // If there are no arguments, the resulting sum is 0.
@@ -114,6 +117,29 @@ function filterWith(fn){
     }
 }
 
+function simpleINIParse(s){
+    // Name and value pairs are separated by new lines. Each line has
+    // a name on the left side and a value on the right side. An
+    // equals sign with no spaces separates the name and the value.
+    // For example, the following string literal is in INI format
+    // - "foo=bar\nbaz=qux\nquxx=corge".
+
+    let elements = s.split("\n");
+    const obj = {};
+    elements.map(function (ele){
+        if(ele.includes("=")){
+            const parts = ele.split("=");
+            obj[parts[0]] = parts[1];
+        }
+    });
+
+    return obj;
+}
+
+function readFileWith(fn){
+    //
+}
+
 // Test for sum(...args)
 //console.log(sum(1));
 
@@ -141,6 +167,10 @@ function filterWith(fn){
 // console.log(limitedParseInt("432"));
 
 // Test for filterWith(fn)
-function even(n) {return n % 2 === 0;}
-let filterWithEven = filterWith(even); 
-console.log(filterWithEven([1, 2, 3, 4])); // [2, 4]   
+// function even(n) {return n % 2 === 0;}
+// let filterWithEven = filterWith(even); 
+// console.log(filterWithEven([1, 2, 3, 4])); // [2, 4]   
+
+// Test for simpleINIParse(s)
+let s = "foo=bar\nbaz=qux\nquxx=corge";
+console.log(simpleINIParse(s));
