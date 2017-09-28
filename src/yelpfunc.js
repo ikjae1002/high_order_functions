@@ -51,7 +51,6 @@ function processYelpData(restaurants){
     //***************Two Mexican restaurants with most reviews
 
     let mexicanres = restaurants;
-    mexicanres.pop(-1);
 
     function findmosttwo(rest){
         let first = {review_count: 0};
@@ -100,6 +99,20 @@ function processYelpData(restaurants){
         }
     }
     console.log("\n* " + commonname + " is the most common business and it appears " + commonnum + " times in the dataset:");
+
+    // Restaurant counts for each state
+    const countStates = {};
+    restaurants.forEach(function (each){
+        if(countStates[each.state] === undefined){
+            countStates[each.state] = 1;
+        }else{
+            countStates[each.state]++;
+        }
+    });
+    console.log("\n* Restaurant count by state: ");
+    for(let state in countStates){
+        console.log("\t* " + state + ": " + countStates[state]);
+    }
 }
 
 module.exports = {
