@@ -2,7 +2,7 @@
 
 
 function processYelpData(restaurants){
-    // Average star for restaurants
+    // *************Average star for restaurants
     const allstars = restaurants.map(function(rating){
         if(!isNaN(rating.stars) && rating.stars !== undefined){
             return rating.stars;
@@ -16,7 +16,7 @@ function processYelpData(restaurants){
     //console.log(average);
     console.log("* Average Rating of the dataset: " + average.toFixed(2));
 
-    // Restaurants in vegas
+    // ************Restaurants in vegas
     function pizzaplace(restaurant){
         if(restaurant.categories.includes("Pizza")){
             return true;
@@ -45,6 +45,38 @@ function processYelpData(restaurants){
     for(let i = 0; i < allpizzainVegas.length; i++){
         console.log("\t* " + allpizzainVegas[i].name + " (* " + allpizzainVegas[i].stars + " *)");
     }
+
+    //***************Two Mexican restaurants with most reviews
+
+    let mexicanres = restaurants;
+    mexicanres.pop(-1);
+
+    function findmosttwo(rest){
+        let first = {review_count: 0};
+        let second = {review_count: 0};
+        for(let i = 0; i < rest.length; i++){
+            if(first.review_count < rest[i].review_count){
+                second = first;
+                first = rest[i];
+            }else if(second.review_count < rest[i].review_count){
+                second = rest[i];
+            }
+        }
+        const arrayOfThem = [first, second];
+        return arrayOfThem;
+    }
+    function mex(rest){
+        if( rest.categories.includes("Mexican")){
+            return true;
+        }
+    }
+    const allmexican = mexicanres.filter(mex);
+    const twomexican = findmosttwo(allmexican);
+    console.log("\n* The two highest reviewed Mexican serving restaurants are:");
+    console.log("\t* " + twomexican[0].name + ", " + twomexican[0].city + ", (" + twomexican[0].state + "), " + twomexican[0].review_count + " reviews, (* " + twomexican[0].stars + " stars *)");
+    console.log("\t* " + twomexican[1].name + ", " + twomexican[1].city + ", (" + twomexican[1].state + "), " + twomexican[1].review_count + " reviews, (* " + twomexican[1].stars + " stars *)");
+
+    //
 }
 
 module.exports = {
