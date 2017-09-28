@@ -98,7 +98,21 @@ function limitCallsDecorator(fn, n){
     }
 }
 
+function filterWith(fn){
+    // This is different from regular filter. The regular version of
+    // filter immediately calls the callback function on every element
+    // in an Array to return a new Array of filtered elements.
+    // filterWith, on the other hand, gives back a function rather
+    // than executing the callback immediately (think of the
+    // difference between bind and call/apply). filterWith is
+    // basically a function that turns another function into a
+    // filtering function (a function that works on Arrays).
 
+    let result = [];
+    return function(array){
+        return result = array.filter(fn);
+    }
+}
 
 // Test for sum(...args)
 //console.log(sum(1));
@@ -125,3 +139,8 @@ function limitCallsDecorator(fn, n){
 // console.log(limitedParseInt("432"));
 // console.log(limitedParseInt("432"));
 // console.log(limitedParseInt("432"));
+
+// Test for filterWith(fn)
+function even(n) {return n % 2 === 0;}
+let filterWithEven = filterWith(even); 
+console.log(filterWithEven([1, 2, 3, 4])); // [2, 4]   
