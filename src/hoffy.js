@@ -2,7 +2,7 @@
 // Programmer: Ikjae (Joshua) Jung
 // Date: 9/24/17
 
-let fs = require('fs');
+const fs = require('fs');
 
 
 function sum(num1, ...nums){
@@ -59,7 +59,7 @@ function maybe(fn){
             return undefined;
         }
         return fn(...args);
-    }
+    };
 }
 
 function constrainDecorator(fn, min, max){
@@ -71,7 +71,7 @@ function constrainDecorator(fn, min, max){
     // return value in this case.
 
     return function(...args){
-        let result = fn(...args);
+        const result = fn(...args);
         if (result > max){
             return max;
         }else if(result < min){
@@ -79,7 +79,7 @@ function constrainDecorator(fn, min, max){
         }else{
             return result;
         }
-    }
+    };
 }
 
 function limitCallsDecorator(fn, n){
@@ -98,7 +98,7 @@ function limitCallsDecorator(fn, n){
         }else{
             return undefined;
         }
-    }
+    };
 }
 
 function filterWith(fn){
@@ -111,10 +111,9 @@ function filterWith(fn){
     // basically a function that turns another function into a
     // filtering function (a function that works on Arrays).
 
-    let result = [];
     return function(array){
-        return result = array.filter(fn);
-    }
+        return array.filter(fn);
+    };
 }
 
 function simpleINIParse(s){
@@ -124,7 +123,7 @@ function simpleINIParse(s){
     // For example, the following string literal is in INI format
     // - "foo=bar\nbaz=qux\nquxx=corge".
 
-    let elements = s.split("\n");
+    const elements = s.split("\n");
     const obj = {};
     elements.map(function (ele){
         if(ele.includes("=")){
@@ -136,9 +135,32 @@ function simpleINIParse(s){
     return obj;
 }
 
-function readFileWith(fn){
+function readFileWith(fn) {
     //
+
+    return function (fileName, callback) {
+        fs.readFile(fileName, 'utf8', function (err, data) {
+            if (err) {
+                callback(err, undefined);
+            } else {
+                callback(err, fn(data));
+            }
+        });
+    };
 }
+
+module.exports = {
+    sum: sum,
+    repeatCall: repeatCall,
+    repeatCallAllArgs: repeatCallAllArgs,
+    maybe: maybe,
+    constrainDecorator: constrainDecorator,
+    limitCallsDecorator: limitCallsDecorator,
+    filterWith: filterWith,
+    simpleINIParse: simpleINIParse,
+    readFileWith: readFileWith,
+};
+
 
 // Test for sum(...args)
 //console.log(sum(1));
@@ -172,5 +194,19 @@ function readFileWith(fn){
 // console.log(filterWithEven([1, 2, 3, 4])); // [2, 4]   
 
 // Test for simpleINIParse(s)
-let s = "foo=bar\nbaz=qux\nquxx=corge";
-console.log(simpleINIParse(s));
+// let s = "foo=bar\nbaz=qux\nquxx=corge";
+// console.log(simpleINIParse(s));
+
+// Test for readFileWith(fn);
+// const readFileWithSimpleINIParse = readFileWith(simpleINIParse);
+// readFileWithSimpleINIParse('config.ini', (err, data) => {
+//     // within the callback, data is equal to
+//     //  {foo: 'bar', baz: 'qux', quxx: 'corge'}
+//     console.log(data);
+// });
+const readFileWithJSONParse = readFileWith(JSON.parse);
+readFileWithJSONParse('config.json', (err, data) => {
+    // within the callback, data is equal to
+    // {foo: 'bar', baz: [1, 2, 3]};
+    console.log(data);
+});
