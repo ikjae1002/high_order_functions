@@ -204,9 +204,9 @@ module.exports = {
 //     //  {foo: 'bar', baz: 'qux', quxx: 'corge'}
 //     console.log(data);
 // });
-const readFileWithJSONParse = readFileWith(JSON.parse);
-readFileWithJSONParse('config.json', (err, data) => {
-    // within the callback, data is equal to
-    // {foo: 'bar', baz: [1, 2, 3]};
-    console.log(data);
-});
+// const readFileWithJSONParse = readFileWith(JSON.parse);
+// readFileWithJSONParse('config.json', (err, data) => {
+//     // within the callback, data is equal to
+//     // {foo: 'bar', baz: [1, 2, 3]};
+//     console.log(data);
+// });
