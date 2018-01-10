@@ -1,7 +1,11 @@
-# ij374-homework02
-homework02 created for ij374
+High Order Functions
+==============================
 
-This Homework is to demonstrate high order function material understanding and incorporating yelp data.
+## Author
+Ikjae (Joshua) Jung
+
+## About
+This Homework is to demonstrate high order function material understanding and incorporating yelp data (downloaded yelp data).
 
 hoffy.js contains multiple functions that deals with high order functions
 
